@@ -4,7 +4,7 @@ class locales::config {
         owner   => root,
         group   => root,
         mode    => 644,
-        source  => 'puppet:///modules/locales/locales.gen',
+        source  => 'puppet:///modules/locales/locale.gen',
         notify  => Exec['locale-gen'],
         require => Class['locales::install'],
     }
