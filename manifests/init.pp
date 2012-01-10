@@ -49,7 +49,7 @@ class locales(
   $package = $locales::params::package,
   $config_file = $locales::params::config_file,
   $locale_gen_cmd = $locales::params::locale_gen_cmd
-) {
+) inherits locales::params {
 
   case $ensure {
     /(present)/: {
