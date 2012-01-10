@@ -2,10 +2,17 @@
 
 Manage locales via Puppet
 
-## How to use
+## Usage
 
-Edit `files/locale.gen` and add all required locales.
+By default, en and de locales will be generated.
 
 ```
-    include locales
+  class { 'locales': }
 ```
+
+## Other class parameters
+* ensure: present or absent, default: present
+* autoupgrade: true or false, default: false. Auto-upgrade package, if there is a newer version.
+* package: string, default: OS specific. Set package name, if platform is not supported.
+* config_file: string, default: OS specific. Set config_file, if platform is not supported.
+* locale_gen_command: string, default: OS specific. Set locale_gen_command, if platform is not supported.
