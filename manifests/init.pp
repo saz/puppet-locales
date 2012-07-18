@@ -48,7 +48,10 @@ class locales(
   $autoupgrade = false,
   $package = $locales::params::package,
   $config_file = $locales::params::config_file,
-  $locale_gen_cmd = $locales::params::locale_gen_cmd
+  $locale_gen_cmd = $locales::params::locale_gen_cmd,
+  $default_file = $locales::params::default_file,
+  $update_locale_pkg = $locales::params::update_locale_pkg,
+  $update_locale_cmd = $locales::params::update_locale_cmd
 ) inherits locales::params {
 
   case $ensure {
