@@ -88,6 +88,15 @@ class locales(
     notify  => Exec['locale-gen'],
   }
 
+  file { $default_file:
+    ensure  => $ensure,
+    owner   => 'root',
+    group   => 'root',
+    mode    => 0644,
+    require => Package[$update_locale_pkg],
+    notify  => Exec['update-locale'],
+  }
+
   exec { 'locale-gen':
     command     => $locale_gen_cmd,
     refreshonly => true,
