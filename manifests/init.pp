@@ -48,7 +48,10 @@ class locales(
   $autoupgrade = false,
   $package = $locales::params::package,
   $config_file = $locales::params::config_file,
-  $locale_gen_cmd = $locales::params::locale_gen_cmd
+  $locale_gen_cmd = $locales::params::locale_gen_cmd,
+  $default_file = $locales::params::default_file,
+  $update_locale_pkg = $locales::params::update_locale_pkg,
+  $update_locale_cmd = $locales::params::update_locale_cmd
 ) inherits locales::params {
 
   case $ensure {
@@ -71,6 +74,10 @@ class locales(
     ensure => $package_ensure,
   }
 
+  package { $update_locale_pkg:
+    ensure => $package_ensure,
+  }
+
   file { $config_file:
     ensure  => $ensure,
     owner   => 'root',
@@ -81,9 +88,25 @@ class locales(
     notify  => Exec['locale-gen'],
   }
 
+  file { $default_file:
+    ensure  => $ensure,
+    owner   => 'root',
+    group   => 'root',
+    mode    => 0644,
+    require => Package[$update_locale_pkg],
+    notify  => Exec['update-locale'],
+  }
+
   exec { 'locale-gen':
     command     => $locale_gen_cmd,
     refreshonly => true,
     require     => Package[$package],
   }
+
+  exec { 'update-locale':
+    command     => $update_locale_cmd,
+    refreshonly => true,
+    require     => Package[$update_locale_pkg],
+  }
+
 }
