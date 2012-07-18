@@ -74,6 +74,10 @@ class locales(
     ensure => $package_ensure,
   }
 
+  package { $update_locale_pkg:
+    ensure => $package_ensure,
+  }
+
   file { $config_file:
     ensure  => $ensure,
     owner   => 'root',
