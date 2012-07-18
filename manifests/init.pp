@@ -93,4 +93,11 @@ class locales(
     refreshonly => true,
     require     => Package[$package],
   }
+
+  exec { 'update-locale':
+    command     => $update_locale_cmd,
+    refreshonly => true,
+    require     => Package[$update_locale_pkg],
+  }
+
 }
