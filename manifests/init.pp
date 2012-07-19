@@ -82,7 +82,7 @@ class locales(
     ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
-    mode    => 0644,
+    mode    => '0644',
     content => template('locales/locale.gen.erb'),
     require => Package[$package],
     notify  => Exec['locale-gen'],
@@ -92,7 +92,7 @@ class locales(
     ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
-    mode    => 0644,
+    mode    => '0644',
     require => Package[$update_locale_pkg],
     notify  => Exec['update-locale'],
   }
