@@ -42,7 +42,7 @@
 #   }
 #
 # [Remember: No empty lines between comments and class definition]
-class locales(
+class locales (
   $locales = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
   $ensure = 'present',
   $autoupgrade = false,
@@ -74,8 +74,14 @@ class locales(
     ensure => $package_ensure,
   }
 
-  package { $update_locale_pkg:
-    ensure => $package_ensure,
+  if $update_locale_pkg != false {
+    package { $update_locale_pkg:
+      ensure => $package_ensure,
+    }
+
+    $update_locale_require = Package[$update_locale_pkg]
+  } else {
+    $update_locale_require = Package[$package]
   }
 
   file { $config_file:
@@ -106,7 +112,6 @@ class locales(
   exec { 'update-locale':
     command     => $update_locale_cmd,
     refreshonly => true,
-    require     => Package[$update_locale_pkg],
+    require     => $update_locale_require,
   }
-
 }

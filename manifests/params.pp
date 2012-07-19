@@ -6,7 +6,22 @@ class locales::params {
       $default_file = '/etc/default/locale'
       $locale_gen_cmd = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
-      $update_locale_pkg = 'libc-bin'
+
+      case $::lsbdistid {
+        'Ubuntu': {
+          case $::lsbdistcodename {
+            'hardy': {
+              $update_locale_pkg = 'belocs-locales-bin'
+            }
+            default: {
+              $update_locale_pkg = 'libc-bin'
+            }
+          }
+        }
+        default: {
+          $update_locale_pkg = false
+        }
+      }
     }
     default: {
       fail("Unsupported platform: ${::operatingsystem}")
