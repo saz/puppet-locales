@@ -99,7 +99,7 @@ class locales (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => Package[$update_locale_pkg],
+    require => $update_locale_require,
     notify  => Exec['update-locale'],
   }
 
