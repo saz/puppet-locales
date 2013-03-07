@@ -12,6 +12,7 @@ By default, en and de locales will be generated.
 
 ## Other class parameters
 * ensure: present or absent, default: present
+* default_locale: string, default: 'C'. Set the default locale.
 * autoupgrade: true or false, default: false. Auto-upgrade package, if there is a newer version.
 * package: string, default: OS specific. Set package name, if platform is not supported.
 * config_file: string, default: OS specific. Set config_file, if platform is not supported.
