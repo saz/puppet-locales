@@ -45,6 +45,7 @@
 class locales (
   $locales = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
   $ensure = 'present',
+  $default_locale = $locales::params::default_locale,
   $autoupgrade = false,
   $package = $locales::params::package,
   $config_file = $locales::params::config_file,
@@ -99,6 +100,7 @@ class locales (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
+    content => template("${module_name}/locale.erb"),
     require => $update_locale_require,
     notify  => Exec['update-locale'],
   }
