@@ -10,6 +10,14 @@ By default, en and de locales will be generated.
   class { 'locales': }
 ```
 
+Configure a bunch of locales.
+
+```
+  class { 'locales': 
+    locales   => ['en_US.UTF-8 UTF-8', 'fr_CH.UTF-8 UTF-8'],
+  }
+```
+
 Advanced usage allows you to select which locales will be configured as well as the default one.
 
 
