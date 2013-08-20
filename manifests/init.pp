@@ -45,7 +45,7 @@
 class locales (
   $locales = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
   $ensure = 'present',
-  $default_locale = $locales::params::default_locale,
+  $default_locale = undef,
   $autoupgrade = false,
   $package = $locales::params::package,
   $config_file = $locales::params::config_file,
@@ -95,14 +95,16 @@ class locales (
     notify  => Exec['locale-gen'],
   }
 
-  file { $default_file:
-    ensure  => $ensure,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template("${module_name}/locale.erb"),
-    require => $update_locale_require,
-    notify  => Exec['update-locale'],
+  if $default_locale {
+    file { $default_file:
+      ensure  => $ensure,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template("${module_name}/locale.erb"),
+      require => $update_locale_require,
+      notify  => Exec['update-locale'],
+    }
   }
 
   exec { 'locale-gen':
