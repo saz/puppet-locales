@@ -107,6 +107,9 @@ class locales (
     }
   }
 
+  # Make sure that the executables are able to find other executables.
+  Exec { path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin' }
+
   exec { 'locale-gen':
     command     => $locale_gen_cmd,
     refreshonly => true,
