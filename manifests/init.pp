@@ -110,12 +110,14 @@ class locales (
   exec { 'locale-gen':
     command     => $locale_gen_cmd,
     refreshonly => true,
+    path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
     require     => Package[$package],
   }
 
   exec { 'update-locale':
     command     => $update_locale_cmd,
     refreshonly => true,
+    path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
     require     => $update_locale_require,
   }
 }
