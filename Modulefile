@@ -1,5 +1,5 @@
 name    'saz-locales'
-version '2.0.1'
+version '2.1.0'
 source 'https://github.com/saz/puppet-locales'
 author 'saz'
 license 'Apache License, Version 2.0'
