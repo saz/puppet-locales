@@ -2,6 +2,9 @@
 <% if @default_locale -%>
 LANG="<%= @default_locale %>"
 <% end -%>
+<% if @language -%>
+LANGUAGE="<%= @language %>"
+<% end -%>
 <% if @lc_ctype -%>
 LC_CTYPE="<%= @lc_ctype %>"
 <% end -%>
