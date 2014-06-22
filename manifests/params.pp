@@ -1,8 +1,8 @@
 class locales::params {
 
   $config_file = $::operatingsystem ? {
-    Debian => '/etc/locale.gen',
-    Ubuntu => '/var/lib/locales/supported.d/local',
+    'Debian' => '/etc/locale.gen',
+    'Ubuntu' => '/var/lib/locales/supported.d/local',
   }
 
   case $::operatingsystem {
