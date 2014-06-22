@@ -115,6 +115,7 @@ class locales (
   $locales           = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
   $ensure            = 'present',
   $default_locale    = undef,
+  $language  = undef,
   $lc_ctype          = $locales::params::lc_ctype,
   $lc_collate        = $locales::params::lc_collate,
   $lc_time           = $locales::params::lc_time,
