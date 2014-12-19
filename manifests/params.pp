@@ -19,6 +19,7 @@ class locales::params {
       $lc_telephone      = undef
       $lc_measurement    = undef
       $lc_identification = undef
+      $lc_all            = undef
       $package           = 'locales'
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
