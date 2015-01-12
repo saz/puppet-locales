@@ -23,6 +23,7 @@ class locales::params {
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
+      $supported_locales  = '/usr/share/i18n/SUPPORTED' # ALL locales support
 
       case $::lsbdistid {
         'Ubuntu': {

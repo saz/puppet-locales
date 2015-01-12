@@ -134,7 +134,8 @@ class locales (
   $locale_gen_cmd    = $locales::params::locale_gen_cmd,
   $default_file      = $locales::params::default_file,
   $update_locale_pkg = $locales::params::update_locale_pkg,
-  $update_locale_cmd = $locales::params::update_locale_cmd
+  $update_locale_cmd = $locales::params::update_locale_cmd,
+  $supported_locales = $locales::params::supported_locales # ALL locales support
 ) inherits locales::params {
 
   case $ensure {
@@ -143,6 +144,12 @@ class locales (
         $package_ensure = 'latest'
       } else {
         $package_ensure = 'present'
+      }
+      # ALL locales support
+      if $locales == ['ALL'] {
+        $config_ensure = 'link'
+      } else {
+        $config_ensure = 'file'
       }
     }
     /(absent)/: {
@@ -166,15 +173,24 @@ class locales (
   } else {
     $update_locale_require = Package[$package]
   }
-
+  # ALL locales support
   file { $config_file:
-    ensure  => $ensure,
+    ensure  => $config_ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template('locales/locale.gen.erb'),
     require => Package[$package],
     notify  => Exec['locale-gen'],
+  }
+  # ALL locales support
+  if $locales == ['ALL'] {
+    File[$config_file] {
+      target => $supported_locales,
+    }
+  } else {
+    File[$config_file] {
+      content => template('locales/locale.gen.erb'),
+    }
   }
 
   file { $default_file:
@@ -192,6 +208,8 @@ class locales (
     refreshonly => true,
     path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
     require     => Package[$package],
+    #locale-gen with all locales may take a very long time
+    timeout     => 900,
   }
 
   exec { 'update-locale':
