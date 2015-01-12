@@ -179,7 +179,6 @@ class locales (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template('locales/locale.gen.erb'),
     require => Package[$package],
     notify  => Exec['locale-gen'],
   }
