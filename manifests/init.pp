@@ -76,6 +76,10 @@
 #     Metadata about the locale information.
 #     Default: undef
 #
+#   [*lc_all*]
+#     Primary Language
+#     Default: undef
+#
 #   [*autoupgrade*]
 #     Upgrade package automatically, if there is a newer version.
 #     Default: false
@@ -128,6 +132,7 @@ class locales (
   $lc_telephone      = $locales::params::lc_telephone,
   $lc_measurement    = $locales::params::lc_measurement,
   $lc_identification = $locales::params::lc_identification,
+  $lc_all            = $locales::params::lc_all,
   $autoupgrade       = false,
   $package           = $locales::params::package,
   $config_file       = $locales::params::config_file,
