@@ -1,10 +1,5 @@
 class locales::params {
 
-  $config_file = $::operatingsystem ? {
-    'Debian' => '/etc/locale.gen',
-    'Ubuntu' => '/var/lib/locales/supported.d/local',
-  }
-
   case $::operatingsystem {
     /(Ubuntu|Debian)/: {
       $lc_ctype          = undef
@@ -28,6 +23,7 @@ class locales::params {
 
       case $::lsbdistid {
         'Ubuntu': {
+          $config_file = '/var/lib/locales/supported.d/local'
           case $::lsbdistcodename {
             'hardy': {
               $update_locale_pkg = 'belocs-locales-bin'
@@ -38,6 +34,7 @@ class locales::params {
           }
         }
         default: {
+          $config_file = '/etc/locale.gen'
           $update_locale_pkg = false
         }
       }
