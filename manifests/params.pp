@@ -20,6 +20,7 @@ class locales::params {
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
       $supported_locales  = '/usr/share/i18n/SUPPORTED' # ALL locales support
+      $locale_generation_required = 'true'
 
       case $::lsbdistid {
         'Ubuntu': {
@@ -39,7 +40,7 @@ class locales::params {
         }
       }
     }
-    /(Redhat|CentOS)/ {
+    /(Redhat|CentOS)/ : {
       $package = 'glibc-common'
       $local_gen_cmd = 'localdef'
       $update_local_pkg = undef
@@ -47,6 +48,7 @@ class locales::params {
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
       $default_file      = '/etc/locale.conf'
+      $local_generation_required = false
     }
     default: {
       fail("Unsupported platform: ${::operatingsystem}")

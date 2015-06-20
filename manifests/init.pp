@@ -178,24 +178,35 @@ class locales (
   } else {
     $update_locale_require = Package[$package]
   }
-  # ALL locales support
-  file { $config_file:
-    ensure  => $config_ensure,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => Package[$package],
-    notify  => Exec['locale-gen'],
-  }
-  # ALL locales support
-  if $locales == ['ALL'] {
-    File[$config_file] {
-      target => $supported_locales,
+  if $locale_generation_required {
+    # ALL locales support
+    file { $config_file:
+      ensure  => $config_ensure,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      require => Package[$package],
+      notify  => Exec['locale-gen'],
     }
-  } else {
-    File[$config_file] {
-      content => template('locales/locale.gen.erb'),
+    # ALL locales support
+    if $locales == ['ALL'] {
+      File[$config_file] {
+        target => $supported_locales,
+      }
+    } else {
+      File[$config_file] {
+        content => template('locales/locale.gen.erb'),
+      }
     }
+    exec { 'locale-gen':
+      command     => $locale_gen_cmd,
+      refreshonly => true,
+      path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
+      require     => Package[$package],
+      #locale-gen with all locales may take a very long time
+      timeout     => 900,
+    }
+
   }
 
   file { $default_file:
@@ -208,14 +219,6 @@ class locales (
     notify  => Exec['update-locale'],
   }
 
-  exec { 'locale-gen':
-    command     => $locale_gen_cmd,
-    refreshonly => true,
-    path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
-    require     => Package[$package],
-    #locale-gen with all locales may take a very long time
-    timeout     => 900,
-  }
 
   exec { 'update-locale':
     command     => $update_locale_cmd,
