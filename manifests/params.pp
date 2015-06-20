@@ -47,8 +47,12 @@ class locales::params {
       #$config_file = '/etc/locale.gen'
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
-      $default_file      = '/etc/locale.conf'
       $local_generation_required = false
+      if $::operatingsystemmajrelease == 7 {
+           $default_file      = '/etc/locale.conf'
+      } else {
+           $default_file      = '/etc/sysconfig/i18n'
+      }
     }
     default: {
       fail("Unsupported platform: ${::operatingsystem}")
