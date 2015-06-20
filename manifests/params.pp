@@ -42,9 +42,10 @@ class locales::params {
     }
     /(Redhat|CentOS)/ : {
       $package = 'glibc-common'
-      $local_gen_cmd = 'localdef'
+      $local_gen_cmd = undef
       $update_local_pkg = undef
       #$config_file = '/etc/locale.gen'
+      $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
       $local_generation_required = false

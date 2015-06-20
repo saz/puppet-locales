@@ -178,7 +178,8 @@ class locales (
   } else {
     $update_locale_require = Package[$package]
   }
-  if $locale_generation_required {
+
+  if $locale_gen_cmd {
     # ALL locales support
     file { $config_file:
       ensure  => $config_ensure,
@@ -219,11 +220,12 @@ class locales (
     notify  => Exec['update-locale'],
   }
 
-
-  exec { 'update-locale':
-    command     => $update_locale_cmd,
-    refreshonly => true,
-    path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
-    require     => $update_locale_require,
+  if $update_locale_cmd {
+    exec { 'update-locale':
+      command     => $update_locale_cmd,
+      refreshonly => true,
+      path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
+      require     => $update_locale_require,
+    }
   }
 }
