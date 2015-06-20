@@ -1,20 +1,20 @@
 class locales::params {
+  $lc_ctype          = undef
+  $lc_collate        = undef
+  $lc_time           = undef
+  $lc_numeric        = undef
+  $lc_monetary       = undef
+  $lc_messages       = undef
+  $lc_paper          = undef
+  $lc_name           = undef
+  $lc_address        = undef
+  $lc_telephone      = undef
+  $lc_measurement    = undef
+  $lc_identification = undef
+  $lc_all            = undef
 
   case $::operatingsystem {
     /(Ubuntu|Debian)/: {
-      $lc_ctype          = undef
-      $lc_collate        = undef
-      $lc_time           = undef
-      $lc_numeric        = undef
-      $lc_monetary       = undef
-      $lc_messages       = undef
-      $lc_paper          = undef
-      $lc_name           = undef
-      $lc_address        = undef
-      $lc_telephone      = undef
-      $lc_measurement    = undef
-      $lc_identification = undef
-      $lc_all            = undef
       $package           = 'locales'
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
@@ -38,6 +38,15 @@ class locales::params {
           $update_locale_pkg = false
         }
       }
+    }
+    /(Redhat|CentOS)/ {
+      $package = 'glibc-common'
+      $local_gen_cmd = 'localdef'
+      $update_local_pkg = undef
+      #$config_file = '/etc/locale.gen'
+      $config_file = '/var/lib/locales/supported.d/local'
+      $update_locale_pkg = false
+      $default_file      = '/etc/locale.conf'
     }
     default: {
       fail("Unsupported platform: ${::operatingsystem}")
