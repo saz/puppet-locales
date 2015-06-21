@@ -217,7 +217,6 @@ class locales (
     mode    => '0644',
     content => template("${module_name}/locale.erb"),
     require => $update_locale_require,
-    notify  => Exec['update-locale'],
   }
 
   if $update_locale_cmd {
@@ -226,6 +225,7 @@ class locales (
       refreshonly => true,
       path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
       require     => $update_locale_require,
+      subscribe   => File[$default_file]
     }
   }
 }
