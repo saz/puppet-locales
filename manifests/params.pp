@@ -1,3 +1,4 @@
+# Default params for locales
 class locales::params {
   $lc_ctype          = undef
   $lc_collate        = undef
@@ -48,9 +49,9 @@ class locales::params {
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
       if $::operatingsystemmajrelease == '7' {
-           $default_file      = '/etc/locale.conf'
+        $default_file      = '/etc/locale.conf'
       } else {
-           $default_file      = '/etc/sysconfig/i18n'
+        $default_file      = '/etc/sysconfig/i18n'
       }
     }
     default: {
