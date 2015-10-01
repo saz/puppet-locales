@@ -49,7 +49,7 @@ class locales::params {
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
       $local_generation_required = false
-      if $::operatingsystemmajrelease == 7 {
+      if $::operatingsystemmajrelease == '7' {
            $default_file      = '/etc/locale.conf'
       } else {
            $default_file      = '/etc/sysconfig/i18n'
