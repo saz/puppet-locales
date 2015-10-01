@@ -20,7 +20,6 @@ class locales::params {
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
       $supported_locales  = '/usr/share/i18n/SUPPORTED' # ALL locales support
-      $locale_generation_required = 'true'
 
       case $::lsbdistid {
         'Ubuntu': {
@@ -48,7 +47,6 @@ class locales::params {
       $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
-      $local_generation_required = false
       if $::operatingsystemmajrelease == '7' {
            $default_file      = '/etc/locale.conf'
       } else {
