@@ -16,15 +16,16 @@ class locales::params {
 
   case $::operatingsystem {
     /(Ubuntu|Debian)/: {
-      $package           = 'locales'
+
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
-      $supported_locales  = '/usr/share/i18n/SUPPORTED' # ALL locales support
+      $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
 
-      case $::lsbdistid {
+      case $::operatingsystem {
         'Ubuntu': {
           $config_file = '/var/lib/locales/supported.d/local'
+          $package     = 'locales'
           case $::lsbdistcodename {
             'hardy': {
               $update_locale_pkg = 'belocs-locales-bin'
@@ -33,6 +34,16 @@ class locales::params {
               $update_locale_pkg = 'libc-bin'
             }
           }
+        }
+        'Debian' : {
+          $package = 'locales-all'
+          # If config_file is not set, we will end up with the error message:
+          # Missing title. The title expression resulted in undef at [init.pp
+          # at definition of file { $config_file: ]
+          # even if this resource is inside the branch of an if which will never
+          # be run.
+          $config_file = '/etc/locale.gen'
+          $update_locale_pkg = 'locales'
         }
         default: {
           $config_file = '/etc/locale.gen'
