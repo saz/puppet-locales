@@ -51,7 +51,7 @@ class locales::params {
         }
       }
     }
-    /(Redhat|CentOS)/ : {
+    /(RedHat|CentOS)/ : {
       $package = 'glibc-common'
       $local_gen_cmd = undef
       $update_local_pkg = undef
