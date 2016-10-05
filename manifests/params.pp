@@ -24,7 +24,6 @@ class locales::params {
 
       case $::operatingsystem {
         'Ubuntu': {
-          $config_file = '/var/lib/locales/supported.d/local'
           $package     = 'locales'
           case $::lsbdistcodename {
             'hardy': {
@@ -32,6 +31,14 @@ class locales::params {
             }
             default: {
               $update_locale_pkg = 'libc-bin'
+            }
+          }
+          case $::operatingsystemrelease {
+            '16.04': {
+              $config_file = '/etc/locale.gen'
+            }
+            default: {
+              $config_file = '/var/lib/locales/supported.d/local'
             }
           }
         }
