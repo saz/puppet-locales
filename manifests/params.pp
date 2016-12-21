@@ -1,18 +1,23 @@
 # Default params for locales
 class locales::params {
-  $lc_ctype          = undef
-  $lc_collate        = undef
-  $lc_time           = undef
-  $lc_numeric        = undef
-  $lc_monetary       = undef
-  $lc_messages       = undef
-  $lc_paper          = undef
-  $lc_name           = undef
-  $lc_address        = undef
-  $lc_telephone      = undef
-  $lc_measurement    = undef
-  $lc_identification = undef
-  $lc_all            = undef
+  $lc_ctype            = undef
+  $lc_collate          = undef
+  $lc_time             = undef
+  $lc_numeric          = undef
+  $lc_monetary         = undef
+  $lc_messages         = undef
+  $lc_paper            = undef
+  $lc_name             = undef
+  $lc_address          = undef
+  $lc_telephone        = undef
+  $lc_measurement      = undef
+  $lc_identification   = undef
+  $lc_all              = undef
+  # Required for Suse - ignored for others
+  $root_uses_lang      = "ctype"  # if set to 'ctype', root will be stay POSIX, set to 'yes' to change root as well
+  $installed_languages = ""       # blank for english, otherwise space seperated list.  Used by Yast2 only.
+  $auto_detect_utf8    = "no"     # Workaround for missing forward of LANG and LC variables of e.g. ssh login connections.
+  $input_method        = ""       # A default input method to be used in X11. For more details see the comments at the top of /etc/X11/xim
 
   case $::operatingsystem {
     /(Ubuntu|Debian)/: {
@@ -64,6 +69,15 @@ class locales::params {
       } else {
         $default_file      = '/etc/sysconfig/i18n'
       }
+    }
+    /(SuSE|SLES)/ : {
+      $package = 'glibc-locale'
+      $default_file      = '/etc/sysconfig/language'
+      $local_gen_cmd = undef
+      $update_local_pkg = undef
+      $update_locale_cmd = undef
+      $config_file = undef
+      $update_locale_pkg = false
     }
     default: {
       fail("Unsupported platform: ${::operatingsystem}")
