@@ -15,6 +15,12 @@
       "operatingsystem": "Ubuntu"
     },
     {
+      "operatingsystem": "openSUSE"
+    },
+    {
+      "operatingsystem": "SLES"
+    },
+    {
       "operatingsystem": "CentOS"
     }
   ],

@@ -52,3 +52,8 @@ for available LC_* environment variables and their descriptions:
 * package: string, default: OS specific. Set package name, if platform is not supported.
 * config_file: string, default: OS specific. Set config_file, if platform is not supported.
 * locale_gen_command: string, default: OS specific. Set locale_gen_command, if platform is not supported.
+* Suse specific:
+  * root_uses_lang: if set to 'ctype', root will be stay POSIX, set to 'yes' to change root to the global language as well. Defaults to 'ctype'.
+  * installed_languages: blank for english, otherwise space seperated list.  Used by Yast2 only.
+  * auto_detect_utf8: Workaround for missing forward of LANG and LC variables of e.g. ssh login connections.  Defaults to 'no'.
+  * input_method: A default input method to be used in X11. For more details see the comments at the top of /etc/X11/xim on a Suse system.
