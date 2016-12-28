@@ -33,13 +33,10 @@ class locales::params {
               $update_locale_pkg = 'libc-bin'
             }
           }
-          case $::operatingsystemrelease {
-            '16.04': {
-              $config_file = '/etc/locale.gen'
-            }
-            default: {
-              $config_file = '/var/lib/locales/supported.d/local'
-            }
+          if versioncmp($::operatingsystemrelease, '16.04') >= 0 {
+            $config_file = '/etc/locale.gen'
+          } else {
+            $config_file = '/var/lib/locales/supported.d/local'
           }
         }
         'Debian' : {
