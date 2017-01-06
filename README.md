@@ -1,4 +1,4 @@
-# puppet-locales
+# puppet-locales [![Build Status](https://secure.travis-ci.org/saz/puppet-locales.png)](https://travis-ci.org/saz/puppet-locales)
 
 Manage locales via Puppet
 
