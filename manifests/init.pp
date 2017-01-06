@@ -116,31 +116,35 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class locales (
-  $locales           = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
-  $ensure            = 'present',
-  $default_locale    = undef,
-  $language  = undef,
-  $lc_ctype          = $locales::params::lc_ctype,
-  $lc_collate        = $locales::params::lc_collate,
-  $lc_time           = $locales::params::lc_time,
-  $lc_numeric        = $locales::params::lc_numeric,
-  $lc_monetary       = $locales::params::lc_monetary,
-  $lc_messages       = $locales::params::lc_messages,
-  $lc_paper          = $locales::params::lc_paper,
-  $lc_name           = $locales::params::lc_name,
-  $lc_address        = $locales::params::lc_address,
-  $lc_telephone      = $locales::params::lc_telephone,
-  $lc_measurement    = $locales::params::lc_measurement,
-  $lc_identification = $locales::params::lc_identification,
-  $lc_all            = $locales::params::lc_all,
-  $autoupgrade       = false,
-  $package           = $locales::params::package,
-  $config_file       = $locales::params::config_file,
-  $locale_gen_cmd    = $locales::params::locale_gen_cmd,
-  $default_file      = $locales::params::default_file,
-  $update_locale_pkg = $locales::params::update_locale_pkg,
-  $update_locale_cmd = $locales::params::update_locale_cmd,
-  $supported_locales = $locales::params::supported_locales # ALL locales support
+  $locales             = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
+  $ensure              = 'present',
+  $default_locale      = undef,
+  $language            = undef,
+  $lc_ctype            = $locales::params::lc_ctype,
+  $lc_collate          = $locales::params::lc_collate,
+  $lc_time             = $locales::params::lc_time,
+  $lc_numeric          = $locales::params::lc_numeric,
+  $lc_monetary         = $locales::params::lc_monetary,
+  $lc_messages         = $locales::params::lc_messages,
+  $lc_paper            = $locales::params::lc_paper,
+  $lc_name             = $locales::params::lc_name,
+  $lc_address          = $locales::params::lc_address,
+  $lc_telephone        = $locales::params::lc_telephone,
+  $lc_measurement      = $locales::params::lc_measurement,
+  $lc_identification   = $locales::params::lc_identification,
+  $lc_all              = $locales::params::lc_all,
+  $root_uses_lang      = $locales::params::root_uses_lang,
+  $installed_languages = $locales::params::installed_languages,
+  $auto_detect_utf8    = $locales::params::auto_detect_utf8,
+  $input_method        = $locales::params::input_method,
+  $autoupgrade         = false,
+  $package             = $locales::params::package,
+  $config_file         = $locales::params::config_file,
+  $locale_gen_cmd      = $locales::params::locale_gen_cmd,
+  $default_file        = $locales::params::default_file,
+  $update_locale_pkg   = $locales::params::update_locale_pkg,
+  $update_locale_cmd   = $locales::params::update_locale_cmd,
+  $supported_locales   = $locales::params::supported_locales # ALL locales support
 ) inherits locales::params {
 
   case $ensure {
@@ -209,13 +213,18 @@ class locales (
     }
 
   }
+  if $::osfamily == "Suse" {
+    $locale_template = "locale.suse.erb"
+  } else {
+    $locale_template = "locale.erb"
+  }
 
   file { $default_file:
     ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template("${module_name}/locale.erb"),
+    content => template("${module_name}/${locale_template}"),
     require => $update_locale_require,
   }
 
