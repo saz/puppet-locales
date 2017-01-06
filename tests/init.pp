@@ -1,1 +1,1 @@
-include locales
+include ::locales

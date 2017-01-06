@@ -213,10 +213,10 @@ class locales (
     }
 
   }
-  if $::osfamily == "Suse" {
-    $locale_template = "locale.suse.erb"
+  if $::osfamily == 'Suse' {
+    $locale_template = 'locale.suse.erb'
   } else {
-    $locale_template = "locale.erb"
+    $locale_template = 'locale.erb'
   }
 
   file { $default_file:
@@ -234,7 +234,7 @@ class locales (
       refreshonly => true,
       path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
       require     => $update_locale_require,
-      subscribe   => File[$default_file]
+      subscribe   => File[$default_file],
     }
   }
 }

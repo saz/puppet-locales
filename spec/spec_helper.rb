@@ -1,18 +1,25 @@
-require 'pathname'
-dir = Pathname.new(__FILE__).parent
-$LOAD_PATH.unshift(dir, dir + 'lib', dir + '../lib')
-
-require 'mocha'
+require 'rspec'
 require 'puppet'
-gem 'rspec', '=1.2.9'
-require 'spec/autorun'
+require 'rspec-puppet'
+require 'mocha'
 
-Spec::Runner.configure do |config|
-    config.mock_with :mocha
+PROJECT_ROOT = File.expand_path('..', File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(PROJECT_ROOT, 'lib'))
+
+fixture_path = File.expand_path(File.join('spec', 'fixtures'), PROJECT_ROOT)
+
+RSpec.configure do |config|
+  config.mock_with :mocha
+
+  # ---
+  # Configuration for puppet-rspec
+
+  config.module_path = File.join(fixture_path, 'modules')
+  config.manifest_dir = File.join(fixture_path, 'manifests')
+  config.environmentpath = File.expand_path(File.join(Dir.pwd, 'spec'))
 end
 
-# We need this because the RAL uses 'should' as a method.  This
-# allows us the same behaviour but with a different method name.
-class Object
-    alias :must :should
-end
+# ---
+# Add the fixture module libdirs to the modulepath
+
+$LOAD_PATH.concat(Dir.glob(File.join(fixture_path, 'modules', '*', 'lib')))
