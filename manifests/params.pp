@@ -83,6 +83,13 @@ class locales::params {
       $config_file = undef
       $update_locale_pkg = false
     }
+    Archlinux: {
+      $package           = 'glibc'
+      $update_locale_pkg = false
+      $locale_gen_cmd    = '/usr/bin/locale-gen' # /usr/sbin will also work but considered legacy
+      $config_file       = '/etc/locales.gen'
+      $default_file      = '/etc/locale.conf'
+    }
     default: {
       fail("Unsupported platform: ${::operatingsystem}")
     }
