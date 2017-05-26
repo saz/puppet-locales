@@ -68,7 +68,7 @@ class locales::params {
       $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
-      if $::operatingsystemmajrelease >= '7' {
+      if (versioncmp($::operatingsystemmajrelease, '6') == 1) {
         $default_file      = '/etc/locale.conf'
         notify { 'OS Maj Release greater than or equal to 7.': }
       } else {
