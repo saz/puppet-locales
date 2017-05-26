@@ -68,12 +68,10 @@ class locales::params {
       $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
-      if (versioncmp($::operatingsystemmajrelease, '6') == 1) {
+      if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         $default_file      = '/etc/locale.conf'
-        notify { 'OS Maj Release greater than or equal to 7.': }
       } else {
         $default_file      = '/etc/sysconfig/i18n'
-        notify { 'OS Maj Release less than 7.': }
       }
     }
     /(SuSE|SLES)/ : {
