@@ -70,8 +70,10 @@ class locales::params {
       $update_locale_pkg = false
       if $::operatingsystemmajrelease >= '7' {
         $default_file      = '/etc/locale.conf'
+        notify { 'OS Maj Release greater than or equal to 7.': }
       } else {
         $default_file      = '/etc/sysconfig/i18n'
+        notify { 'OS Maj Release less than 7.': }
       }
     }
     /(SuSE|SLES)/ : {
