@@ -60,24 +60,24 @@ class locales::params {
         }
       }
     }
-    /(RedHat|CentOS)/ : {
+    /(RedHat|CentOS|Fedora)/: {
       $package = 'glibc-common'
-      $local_gen_cmd = undef
+      $locale_gen_cmd = undef
       $update_local_pkg = undef
       #$config_file = '/etc/locale.gen'
       $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
-      if $::operatingsystemmajrelease == '7' {
+      if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         $default_file      = '/etc/locale.conf'
       } else {
         $default_file      = '/etc/sysconfig/i18n'
       }
     }
-    /(SuSE|SLES)/ : {
+    /(SuSE|SLES)/: {
       $package = 'glibc-locale'
       $default_file      = '/etc/sysconfig/language'
-      $local_gen_cmd = undef
+      $locale_gen_cmd = undef
       $update_local_pkg = undef
       $update_locale_cmd = undef
       $config_file = undef
