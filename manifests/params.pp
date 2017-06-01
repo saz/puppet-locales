@@ -60,9 +60,9 @@ class locales::params {
         }
       }
     }
-    /(RedHat|CentOS|Fedora)/ : {
+    /(RedHat|CentOS|Fedora)/: {
       $package = 'glibc-common'
-      $local_gen_cmd = undef
+      $locale_gen_cmd = undef
       $update_local_pkg = undef
       #$config_file = '/etc/locale.gen'
       $update_locale_cmd = undef
@@ -74,10 +74,10 @@ class locales::params {
         $default_file      = '/etc/sysconfig/i18n'
       }
     }
-    /(SuSE|SLES)/ : {
+    /(SuSE|SLES)/: {
       $package = 'glibc-locale'
       $default_file      = '/etc/sysconfig/language'
-      $local_gen_cmd = undef
+      $locale_gen_cmd = undef
       $update_local_pkg = undef
       $update_locale_cmd = undef
       $config_file = undef
