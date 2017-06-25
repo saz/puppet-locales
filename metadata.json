@@ -21,6 +21,9 @@
       "operatingsystem": "SLES"
     },
     {
+      "operatingsystem": "Archlinux"
+    },
+    {
       "operatingsystem": "CentOS"
     }
   ],
