@@ -2,6 +2,9 @@
 
 Manage locales via Puppet
 
+### Supported Puppet versions
+* Puppet >= 3
+
 ## Usage
 
 By default, en and de locales will be generated.
