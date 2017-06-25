@@ -3,7 +3,8 @@
 Manage locales via Puppet
 
 ### Supported Puppet versions
-* Puppet >= 3
+* Puppet >= 4
+* Last version supporting Puppet 3: v2.4.0
 
 ## Usage
 
