@@ -68,6 +68,7 @@ class locales::params {
       $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $update_locale_pkg = false
+      $supported_locales = undef
       if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         $default_file      = '/etc/locale.conf'
       } else {
