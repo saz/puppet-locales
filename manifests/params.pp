@@ -28,7 +28,7 @@ class locales::params {
       $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
 
       case $::operatingsystem {
-        '/(Ubuntu|LinuxMint)/': {
+        /(Ubuntu|LinuxMint)/: {
           $package     = 'locales'
           case $::lsbdistcodename {
             'hardy': {
