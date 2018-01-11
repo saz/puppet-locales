@@ -60,7 +60,7 @@ class locales::params {
         }
       }
     }
-    /(RedHat|CentOS|OracleLinux|Fedora|Amazon)/: {
+    /(RedHat|CentOS|OracleLinux|Fedora|Amazon|CloudLinux)/: {
       $package = 'glibc-common'
       $locale_gen_cmd = undef
       $update_local_pkg = undef
