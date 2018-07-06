@@ -91,6 +91,14 @@ class locales::params {
       $config_file       = '/etc/locales.gen'
       $default_file      = '/etc/locale.conf'
     }
+    /(Gentoo|Sabayon)/: {
+      $package           = 'glibc'
+      $update_locale_pkg = false
+      $locale_gen_cmd    = '/usr/sbin/locale-gen'
+      $config_file       = '/etc/locales.gen'
+      $default_file      = '/etc/locale.conf'
+      $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
+    }
     default: {
       fail("Unsupported platform: ${::operatingsystem}")
     }
