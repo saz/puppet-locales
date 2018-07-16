@@ -95,7 +95,7 @@ class locales::params {
       $package           = 'glibc'
       $update_locale_pkg = false
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
-      $config_file       = '/etc/locales.gen'
+      $config_file       = '/etc/locale.gen'
       $default_file      = '/etc/locale.conf'
       $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
     }
