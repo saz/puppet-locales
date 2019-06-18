@@ -144,7 +144,7 @@ class locales (
   $default_file        = $locales::params::default_file,
   $update_locale_pkg   = $locales::params::update_locale_pkg,
   $update_locale_cmd   = $locales::params::update_locale_cmd,
-  $supported_locales   = $locales::params::supported_locales # ALL locales support
+  $supported_locales   = $locales::params::supported_locales, # ALL locales support
   $manage_package      = true,
 ) inherits locales::params {
 
