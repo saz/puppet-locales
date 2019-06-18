@@ -1,6 +1,6 @@
 require: rubocop-rspec
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
   Include:
     - ./**/*.rb
   Exclude:
@@ -272,10 +272,10 @@ Style/EachWithObject:
 Layout/EmptyLineBetweenDefs:
   Enabled: true
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   Enabled: true
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   Enabled: true
 
 Layout/IndentationConsistency:
@@ -313,12 +313,6 @@ Style/StringLiterals:
   Enabled: true
 
 Style/TrailingCommaInArguments:
-  Enabled: true
-
-Style/TrailingCommaInArrayLiteral:
-  Enabled: true
-
-Style/TrailingCommaInHashLiteral:
   Enabled: true
 
 Style/GlobalVars:
@@ -414,9 +408,6 @@ Style/NumericLiterals:
 Style/OneLineConditional:
   Enabled: true
 
-Naming/BinaryOperatorParameterName:
-  Enabled: true
-
 Style/ParenthesesAroundCondition:
   Enabled: true
 
@@ -461,9 +452,6 @@ Metrics/ParameterLists:
 Lint/RequireParentheses:
   Enabled: true
 
-Layout/SpaceBeforeFirstArg:
-  Enabled: true
-
 Style/ModuleFunction:
   Enabled: true
 
@@ -496,9 +484,6 @@ Metrics/BlockLength:
 Metrics/PerceivedComplexity:
   Enabled: False
 
-Lint/UselessAssignment:
-  Enabled: true
-
 Layout/ClosingParenthesisIndentation:
   Enabled: false
 
@@ -512,6 +497,6 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: False
 RSpec/NestedGroups:                                                                                                                                                                                              
-  Max: 4 
+  Max: 5 
 RSpec/MultipleExpectations:
-  Max: 2
+  Max: 3
