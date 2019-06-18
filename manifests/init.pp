@@ -145,6 +145,7 @@ class locales (
   $update_locale_pkg   = $locales::params::update_locale_pkg,
   $update_locale_cmd   = $locales::params::update_locale_cmd,
   $supported_locales   = $locales::params::supported_locales # ALL locales support
+  $manage_package      = true,
 ) inherits locales::params {
 
   case $ensure {
@@ -169,8 +170,10 @@ class locales (
     }
   }
 
-  package { $package:
-    ensure => $package_ensure,
+  if $manage_package {
+    package { $package:
+      ensure => $package_ensure,
+    }
   }
 
   if $update_locale_pkg != false {
