@@ -148,6 +148,14 @@ class locales (
   Boolean                  $manage_package      = true,
 ) inherits locales::params {
 
+  $locales.each | String $locale | {
+    # expected format: "en_US.UTF-8<blank>UTF-8"
+    # e.g. locale-gen isn't failing but showing a warning
+    if ! ' ' in $locale {
+      fail("Invalid locale: ${locale}")
+    }
+  }
+
   case $ensure {
     /(present)/: {
       if $autoupgrade == true {
