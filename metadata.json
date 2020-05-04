@@ -9,6 +9,9 @@
   "issues_url": "https://github.com/saz/puppet-locales/issues",
   "operatingsystem_support": [
     {
+      "operatingsystem": "Raspbian"
+    },
+    {
       "operatingsystem": "Debian"
     },
     {
