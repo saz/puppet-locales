@@ -73,7 +73,7 @@ class locales::params {
         $default_file      = '/etc/sysconfig/i18n'
       }
     }
-    /(SuSE|SLES)/: {
+    /(?i:SuSE|SLES)/: {
       $package = 'glibc-locale'
       $update_locale_pkg = false
       $locale_gen_cmd = undef
