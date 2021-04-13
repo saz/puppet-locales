@@ -116,36 +116,45 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class locales (
-  $locales             = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
-  $ensure              = 'present',
-  $default_locale      = undef,
-  $language            = undef,
-  $lc_ctype            = $locales::params::lc_ctype,
-  $lc_collate          = $locales::params::lc_collate,
-  $lc_time             = $locales::params::lc_time,
-  $lc_numeric          = $locales::params::lc_numeric,
-  $lc_monetary         = $locales::params::lc_monetary,
-  $lc_messages         = $locales::params::lc_messages,
-  $lc_paper            = $locales::params::lc_paper,
-  $lc_name             = $locales::params::lc_name,
-  $lc_address          = $locales::params::lc_address,
-  $lc_telephone        = $locales::params::lc_telephone,
-  $lc_measurement      = $locales::params::lc_measurement,
-  $lc_identification   = $locales::params::lc_identification,
-  $lc_all              = $locales::params::lc_all,
-  $root_uses_lang      = $locales::params::root_uses_lang,
-  $installed_languages = $locales::params::installed_languages,
-  $auto_detect_utf8    = $locales::params::auto_detect_utf8,
-  $input_method        = $locales::params::input_method,
-  $autoupgrade         = false,
-  $package             = $locales::params::package,
-  $config_file         = $locales::params::config_file,
-  $locale_gen_cmd      = $locales::params::locale_gen_cmd,
-  $default_file        = $locales::params::default_file,
-  $update_locale_pkg   = $locales::params::update_locale_pkg,
-  $update_locale_cmd   = $locales::params::update_locale_cmd,
-  $supported_locales   = $locales::params::supported_locales # ALL locales support
+  Array[String]            $locales             = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
+  String                   $ensure              = 'present',
+  Optional[String]         $default_locale      = undef,
+  Optional[String]         $language            = undef,
+  Optional[String]         $lc_ctype            = $locales::params::lc_ctype,
+  Optional[String]         $lc_collate          = $locales::params::lc_collate,
+  Optional[String]         $lc_time             = $locales::params::lc_time,
+  Optional[String]         $lc_numeric          = $locales::params::lc_numeric,
+  Optional[String]         $lc_monetary         = $locales::params::lc_monetary,
+  Optional[String]         $lc_messages         = $locales::params::lc_messages,
+  Optional[String]         $lc_paper            = $locales::params::lc_paper,
+  Optional[String]         $lc_name             = $locales::params::lc_name,
+  Optional[String]         $lc_address          = $locales::params::lc_address,
+  Optional[String]         $lc_telephone        = $locales::params::lc_telephone,
+  Optional[String]         $lc_measurement      = $locales::params::lc_measurement,
+  Optional[String]         $lc_identification   = $locales::params::lc_identification,
+  Optional[String]         $lc_all              = $locales::params::lc_all,
+  Optional[String]         $root_uses_lang      = $locales::params::root_uses_lang,
+  String                   $installed_languages = $locales::params::installed_languages,
+  String                   $auto_detect_utf8    = $locales::params::auto_detect_utf8,
+  String                   $input_method        = $locales::params::input_method,
+  Boolean                  $autoupgrade         = false,
+  String                   $package             = $locales::params::package,
+  Optional[String]         $config_file         = $locales::params::config_file,
+  Optional[String]         $locale_gen_cmd      = $locales::params::locale_gen_cmd,
+  String                   $default_file        = $locales::params::default_file,
+  Variant[Boolean, String] $update_locale_pkg   = $locales::params::update_locale_pkg,
+  Optional[String]         $update_locale_cmd   = $locales::params::update_locale_cmd,
+  Optional[String]         $supported_locales   = $locales::params::supported_locales, # ALL locales support
+  Boolean                  $manage_package      = true,
 ) inherits locales::params {
+
+  $locales.each | String $locale | {
+    # expected format: "en_US.UTF-8<blank>UTF-8"
+    # e.g. locale-gen isn't failing but showing a warning
+    if ! ' ' in $locale {
+      fail("Invalid locale: ${locale}")
+    }
+  }
 
   case $ensure {
     /(present)/: {
@@ -169,8 +178,10 @@ class locales (
     }
   }
 
-  package { $package:
-    ensure => $package_ensure,
+  if $manage_package {
+    package { $package:
+      ensure => $package_ensure,
+    }
   }
 
   if $update_locale_pkg != false {
@@ -213,10 +224,10 @@ class locales (
     }
 
   }
-  if $::osfamily == "Suse" {
-    $locale_template = "locale.suse.erb"
+  if $::osfamily == 'Suse' {
+    $locale_template = 'locale.suse.erb'
   } else {
-    $locale_template = "locale.erb"
+    $locale_template = 'locale.erb'
   }
 
   file { $default_file:
@@ -234,7 +245,7 @@ class locales (
       refreshonly => true,
       path        => ['/usr/local/bin', '/usr/bin', '/bin', '/usr/local/sbin', '/usr/sbin', '/sbin'],
       require     => $update_locale_require,
-      subscribe   => File[$default_file]
+      subscribe   => File[$default_file],
     }
   }
 }

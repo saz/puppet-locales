@@ -1,6 +1,10 @@
-# puppet-locales
+# puppet-locales [![Build Status](https://secure.travis-ci.org/saz/puppet-locales.png)](https://travis-ci.org/saz/puppet-locales)
 
 Manage locales via Puppet
+
+### Supported Puppet versions
+* Puppet >= 4
+* Last version supporting Puppet 3: v2.4.0
 
 ## Usage
 
