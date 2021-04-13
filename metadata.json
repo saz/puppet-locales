@@ -9,6 +9,9 @@
   "issues_url": "https://github.com/saz/puppet-locales/issues",
   "operatingsystem_support": [
     {
+      "operatingsystem": "Raspbian"
+    },
+    {
       "operatingsystem": "Debian"
     },
     {
@@ -30,7 +33,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=4.0.0 <7.0.0"
+      "version_requirement": ">=4.0.0 <8.0.0"
     }
   ],
   "description": "Manage locales on Linux",

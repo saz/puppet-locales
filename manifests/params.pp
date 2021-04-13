@@ -20,7 +20,7 @@ class locales::params {
   $input_method        = ''       # A default input method to be used in X11. For more details see the comments at the top of /etc/X11/xim
 
   case $::operatingsystem {
-    /(Ubuntu|Debian|LinuxMint)/: {
+    /(Ubuntu|Debian|LinuxMint|Raspbian)/: {
 
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
@@ -44,7 +44,7 @@ class locales::params {
             $config_file = '/var/lib/locales/supported.d/local'
           }
         }
-        'Debian' : {
+        /(Debian|Raspbian)/: {
           $package = 'locales-all'
           # If config_file is not set, we will end up with the error message:
           # Missing title. The title expression resulted in undef at [init.pp
@@ -85,7 +85,7 @@ class locales::params {
       $package           = 'glibc'
       $update_locale_pkg = false
       $locale_gen_cmd    = '/usr/bin/locale-gen' # /usr/sbin will also work but considered legacy
-      $config_file       = '/etc/locales.gen'
+      $config_file       = '/etc/locale.gen'
       $default_file      = '/etc/locale.conf'
     }
     /(Gentoo|Sabayon)/: {
