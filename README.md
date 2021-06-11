@@ -17,7 +17,7 @@ By default, en and de locales will be generated.
 Configure a bunch of locales.
 
 ```
-  class { 'locales': 
+  class { 'locales':
     locales   => ['en_US.UTF-8 UTF-8', 'fr_CH.UTF-8 UTF-8'],
   }
 ```
