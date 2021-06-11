@@ -116,7 +116,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class locales (
-  Array[String]            $locales             = [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ],
+  Array[String]            $locales             = ['en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8'],
   String                   $ensure              = 'present',
   Optional[String]         $default_locale      = undef,
   Optional[String]         $language            = undef,
@@ -147,7 +147,6 @@ class locales (
   Optional[String]         $supported_locales   = $locales::params::supported_locales, # ALL locales support
   Boolean                  $manage_package      = true,
 ) inherits locales::params {
-
   $locales.each | String $locale | {
     # expected format: "en_US.UTF-8<blank>UTF-8"
     # e.g. locale-gen isn't failing but showing a warning
@@ -222,9 +221,8 @@ class locales (
       #locale-gen with all locales may take a very long time
       timeout     => 900,
     }
-
   }
-  if $::osfamily == 'Suse' {
+  if $facts['os']['family'] == 'Suse' {
     $locale_template = 'locale.suse.erb'
   } else {
     $locale_template = 'locale.erb'

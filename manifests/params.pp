@@ -19,18 +19,17 @@ class locales::params {
   $auto_detect_utf8    = 'no'     # Workaround for missing forward of LANG and LC variables of e.g. ssh login connections.
   $input_method        = ''       # A default input method to be used in X11. For more details see the comments at the top of /etc/X11/xim
 
-  case $::operatingsystem {
+  case $facts['os']['name'] {
     /(Ubuntu|Debian|LinuxMint|Raspbian)/: {
-
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
       $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
 
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         /(Ubuntu|LinuxMint)/: {
           $package     = 'locales'
-          case $::lsbdistcodename {
+          case $facts['os']['distro']['codename'] {
             'hardy': {
               $update_locale_pkg = 'belocs-locales-bin'
             }
@@ -38,7 +37,7 @@ class locales::params {
               $update_locale_pkg = 'libc-bin'
             }
           }
-          if versioncmp($::operatingsystemrelease, '16.04') >= 0 {
+          if versioncmp($facts['os']['release']['full'], '16.04') >= 0 {
             $config_file = '/etc/locale.gen'
           } else {
             $config_file = '/var/lib/locales/supported.d/local'
@@ -67,7 +66,7 @@ class locales::params {
       $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $supported_locales = undef
-      if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
+      if versioncmp($facts['os']['release']['major'], '7') >= 0 {
         $default_file      = '/etc/locale.conf'
       } else {
         $default_file      = '/etc/sysconfig/i18n'
