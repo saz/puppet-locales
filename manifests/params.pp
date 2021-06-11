@@ -96,7 +96,7 @@ class locales::params {
       $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
     }
     default: {
-      fail("Unsupported platform: ${::operatingsystem}")
+      fail("Unsupported platform: ${facts['os']['name']}")
     }
   }
 }
