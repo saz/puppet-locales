@@ -1,25 +1,18 @@
-require 'rspec'
-require 'puppet'
-require 'rspec-puppet'
-require 'mocha'
+# This file is managed via modulesync
+# https://github.com/voxpupuli/modulesync
+# https://github.com/voxpupuli/modulesync_config
 
-PROJECT_ROOT = File.expand_path('..', File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(PROJECT_ROOT, 'lib'))
+# puppetlabs_spec_helper will set up coverage if the env variable is set.
+# We want to do this if lib exists and it hasn't been explicitly set.
+ENV['COVERAGE'] ||= 'yes' if Dir.exist?(File.expand_path('../../lib', __FILE__))
 
-fixture_path = File.expand_path(File.join('spec', 'fixtures'), PROJECT_ROOT)
+require 'voxpupuli/test/spec_helper'
 
-RSpec.configure do |config|
-  config.mock_with :mocha
-
-  # ---
-  # Configuration for puppet-rspec
-
-  config.module_path = File.join(fixture_path, 'modules')
-  config.manifest_dir = File.join(fixture_path, 'manifests')
-  config.environmentpath = File.expand_path(File.join(Dir.pwd, 'spec'))
+if File.exist?(File.join(__dir__, 'default_module_facts.yml'))
+  facts = YAML.safe_load(File.read(File.join(__dir__, 'default_module_facts.yml')))
+  if facts
+    facts.each do |name, value|
+      add_custom_fact name.to_sym, value
+    end
+  end
 end
-
-# ---
-# Add the fixture module libdirs to the modulepath
-
-$LOAD_PATH.concat(Dir.glob(File.join(fixture_path, 'modules', '*', 'lib')))
