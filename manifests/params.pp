@@ -20,7 +20,7 @@ class locales::params {
   $input_method        = ''       # A default input method to be used in X11. For more details see the comments at the top of /etc/X11/xim
 
   case $facts['os']['name'] {
-    /(Ubuntu|Debian|LinuxMint|Raspbian)/: {
+    /(Ubuntu|Debian|LinuxMint|Raspbian|Kali)/: {
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
@@ -43,7 +43,7 @@ class locales::params {
             $config_file = '/var/lib/locales/supported.d/local'
           }
         }
-        /(Debian|Raspbian)/: {
+        /(Debian|Raspbian|Kali)/: {
           $package = 'locales-all'
           # If config_file is not set, we will end up with the error message:
           # Missing title. The title expression resulted in undef at [init.pp
