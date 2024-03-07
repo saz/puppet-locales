@@ -20,14 +20,14 @@ class locales::params {
   $input_method        = ''       # A default input method to be used in X11. For more details see the comments at the top of /etc/X11/xim
 
   case $facts['os']['name'] {
-    /(Ubuntu|Debian|LinuxMint|Linuxmint|Raspbian|Kali)/: {
+    /(Ubuntu|Debian|LinuxMint|Linuxmint|Raspbian|Kali|Pop!_OS)/: {
       $default_file      = '/etc/default/locale'
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
       $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
 
       case $facts['os']['name'] {
-        /(Ubuntu|LinuxMint|Linuxmint)/: {
+        /(Ubuntu|LinuxMint|Linuxmint|Pop!_OS)/: {
           $package     = 'locales'
           case $facts['os']['distro']['codename'] {
             'hardy': {
