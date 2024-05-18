@@ -202,7 +202,7 @@ class locales (
     file { $config_file:
       ensure  => $config_ensure,
       owner   => 'root',
-      group   => 'root',
+      group   => 0,
       mode    => '0644',
       require => Package[$package],
       notify  => Exec['locale-gen'],
@@ -235,7 +235,7 @@ class locales (
   file { $default_file:
     ensure  => $ensure,
     owner   => 'root',
-    group   => 'root',
+    group   => 0,
     mode    => '0644',
     content => template("${module_name}/${locale_template}"),
     require => $update_locale_require,
