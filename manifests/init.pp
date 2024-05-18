@@ -190,7 +190,11 @@ class locales (
 
     $update_locale_require = Package[$update_locale_pkg]
   } else {
-    $update_locale_require = Package[$package]
+    if $manage_package {
+      $update_locale_require = Package[$package]
+    } else {
+      $update_locale_require = undef
+    }
   }
 
   if $locale_gen_cmd {
@@ -235,6 +239,14 @@ class locales (
     mode    => '0644',
     content => template("${module_name}/${locale_template}"),
     require => $update_locale_require,
+  }
+
+  $debian_legacy_location = '/etc/default/locale'
+  if $facts['os']['name'] == 'Debian' and $default_file != $debian_legacy_location {
+    file { $debian_legacy_location:
+      ensure => $ensure,
+      target => $default_file,
+    }
   }
 
   if $update_locale_cmd {

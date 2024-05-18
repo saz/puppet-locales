@@ -23,7 +23,7 @@ class locales::params {
     /(Ubuntu|Debian|LinuxMint|Linuxmint|Raspbian|Kali|Pop!_OS)/: {
       case $facts['os']['name'] {
         'Debian': {
-          if versioncmp($facts['os']['release']['full'], '12') >= 0 {
+          if versioncmp($facts['os']['release']['full'], '12') > 0 {
             $default_file = '/etc/locale.conf'
           }
         }
