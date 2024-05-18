@@ -21,20 +21,12 @@ class locales::params {
 
   case $facts['os']['name'] {
     /(Ubuntu|Debian|LinuxMint|Linuxmint|Raspbian|Kali|Pop!_OS)/: {
-      case $facts['os']['name'] {
-        'Debian': {
-          if versioncmp($facts['os']['release']['full'], '12') > 0 {
-            $default_file = '/etc/locale.conf'
-          }
-        }
-        'Ubuntu': {
-          if versioncmp($facts['os']['release']['full'], '24.04') >= 0 {
-            $default_file = '/etc/locale.conf'
-          }
-        }
-        default: {
-          $default_file = '/etc/default/locale'
-        }
+      if $facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['full'], '12') > 0 {
+        $default_file = '/etc/locale.conf'
+      } elsif $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['full'], '24.04') >= 0 {
+        $default_file = '/etc/locale.conf'
+      } else {
+        $default_file = '/etc/default/locale'
       }
 
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
