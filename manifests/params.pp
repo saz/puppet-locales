@@ -21,20 +21,17 @@ class locales::params {
 
   case $facts['os']['name'] {
     /(Ubuntu|Debian|LinuxMint|Linuxmint|Raspbian|Kali|Pop!_OS)/: {
-      if $facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['full'], '12') > 0 {
-        $default_file = '/etc/locale.conf'
-      } elsif $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['full'], '24.04') >= 0 {
-        $default_file = '/etc/locale.conf'
-      } else {
-        $default_file = '/etc/default/locale'
-      }
-
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
       $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
 
       case $facts['os']['name'] {
         /(Ubuntu|LinuxMint|Linuxmint|Pop!_OS)/: {
+          if versioncmp($facts['os']['release']['full'], '24.04') >= 0 {
+            $default_file = '/etc/locale.conf'
+          } else {
+            $default_file = '/etc/default/locale'
+          }
           $package     = 'locales'
           case $facts['os']['distro']['codename'] {
             'hardy': {
@@ -51,6 +48,12 @@ class locales::params {
           }
         }
         /(Debian|Raspbian|Kali)/: {
+          if versioncmp($facts['os']['release']['major'], '12') == 1 {
+            $default_file = '/etc/locale.conf'
+          } else {
+            $default_file = '/etc/default/locale'
+          }
+
           $package = 'locales-all'
           # If config_file is not set, we will end up with the error message:
           # Missing title. The title expression resulted in undef at [init.pp
@@ -85,13 +88,16 @@ class locales::params {
       $locale_gen_cmd = undef
       $update_locale_cmd = undef
       $config_file = undef
+      $supported_locales = undef
       $default_file      = '/etc/sysconfig/language'
     }
     /(Archlinux)/: {
       $package           = 'glibc'
       $update_locale_pkg = false
       $locale_gen_cmd    = '/usr/bin/locale-gen' # /usr/sbin will also work but considered legacy
+      $update_locale_cmd = undef
       $config_file       = '/etc/locale.gen'
+      $supported_locales = undef
       $default_file      = '/etc/locale.conf'
     }
     /(Gentoo|Sabayon)/: {
