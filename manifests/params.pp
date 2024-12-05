@@ -20,7 +20,7 @@ class locales::params {
   $input_method        = ''       # A default input method to be used in X11. For more details see the comments at the top of /etc/X11/xim
 
   case $facts['os']['name'] {
-    /(Ubuntu|Debian|LinuxMint|Linuxmint|Raspbian|Kali|Pop!_OS)/: {
+    /(Ubuntu|Debian|LinuxMint|Linuxmint|Raspbian|Kali|Pop!_OS|Parrot)/: {
       $locale_gen_cmd    = '/usr/sbin/locale-gen'
       $update_locale_cmd = '/usr/sbin/update-locale'
       $supported_locales = '/usr/share/i18n/SUPPORTED' # ALL locales support
@@ -47,7 +47,7 @@ class locales::params {
             $config_file = '/var/lib/locales/supported.d/local'
           }
         }
-        /(Debian|Raspbian|Kali)/: {
+        /(Debian|Raspbian|Kali|Parrot)/: {
           if versioncmp($facts['os']['release']['major'], '12') == 1 {
             $default_file = '/etc/locale.conf'
           } else {
