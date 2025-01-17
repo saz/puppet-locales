@@ -48,7 +48,7 @@ class locales::params {
           }
         }
         /(Debian|Raspbian|Kali)/: {
-          if versioncmp($facts['os']['release']['major'], '12') == 1 {
+          if versioncmp($facts['os']['release']['major'], '12') >= 0 {
             $default_file = '/etc/locale.conf'
           } else {
             $default_file = '/etc/default/locale'
