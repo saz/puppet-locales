@@ -33,22 +33,11 @@ class locales::params {
             $default_file = '/etc/default/locale'
           }
           $package     = 'locales'
-          case $facts['os']['distro']['codename'] {
-            'hardy': {
-              $update_locale_pkg = 'belocs-locales-bin'
-            }
-            default: {
-              $update_locale_pkg = 'libc-bin'
-            }
-          }
-          if versioncmp($facts['os']['release']['full'], '16.04') >= 0 {
-            $config_file = '/etc/locale.gen'
-          } else {
-            $config_file = '/var/lib/locales/supported.d/local'
-          }
+          $update_locale_pkg = 'libc-bin'
+          $config_file = '/etc/locale.gen'
         }
         /(Debian|Raspbian|Kali|Parrot)/: {
-          if versioncmp($facts['os']['release']['major'], '12') == 1 {
+          if versioncmp($facts['os']['release']['major'], '12') >= 0 {
             $default_file = '/etc/locale.conf'
           } else {
             $default_file = '/etc/default/locale'

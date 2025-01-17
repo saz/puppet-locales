@@ -20,7 +20,7 @@ describe 'locales' do
         when 'debian'
           case facts[:os]['name'].downcase
           when 'debian'
-            default_file = if Gem::Version.new(facts[:os]['release']['major']) > Gem::Version.new('12')
+            default_file = if Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new('12')
                              '/etc/locale.conf'
                            else
                              '/etc/default/locale'
@@ -38,20 +38,20 @@ describe 'locales' do
           default_file = '/etc/locale.conf'
         end
 
-        it do
-          is_expected.to contain_file(default_file).with(
-            'ensure' => 'present',
-            'owner' => 'root',
-            'group' => 0,
-            'mode' => '0644'
-          )
-        end
-
         if os =~ (%r{^(debian|ubuntu)}) && (default_file != '/etc/default/locale')
+          it do
+            is_expected.to contain_file('/etc/default/locale').with(
+              'ensure' => 'present',
+              'target' => '/etc/locale.conf'
+            )
+          end
+        else
           it do
             is_expected.to contain_file(default_file).with(
               'ensure' => 'present',
-              'target' => '/etc/locale.conf'
+              'owner' => 'root',
+              'group' => 0,
+              'mode' => '0644'
             )
           end
         end
