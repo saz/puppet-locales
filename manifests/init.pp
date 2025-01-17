@@ -242,7 +242,7 @@ class locales (
   }
 
   $debian_legacy_location = '/etc/default/locale'
-  if $facts['os']['name'] == 'Debian' and $default_file != $debian_legacy_location {
+  if $facts['os']['family'] == 'Debian' and $default_file != $debian_legacy_location {
     file { $debian_legacy_location:
       ensure => $ensure,
       target => $default_file,
