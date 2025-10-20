@@ -65,11 +65,7 @@ class locales::params {
       $update_locale_cmd = undef
       $config_file = '/var/lib/locales/supported.d/local'
       $supported_locales = undef
-      if versioncmp($facts['os']['release']['major'], '7') >= 0 {
-        $default_file      = '/etc/locale.conf'
-      } else {
-        $default_file      = '/etc/sysconfig/i18n'
-      }
+      $default_file = '/etc/locale.conf'
     }
     /(?i:SuSE|SLES)/: {
       $package = 'glibc-locale'
