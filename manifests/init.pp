@@ -1,151 +1,98 @@
-# Class: locales
+# @summary Manage locales
 #
-# This module manages locales
-#
-# Parameters:
-#   [*locales*]
-#     Name of locales to generate
-#     Default: [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', ]
-#
-#   [*ensure*]
-#     Ensure if present or absent.
-#     Default: present
-#
-#   [*default_locale*]
-#     The value of the LANG environment variable. Used by the locale system as
-#     default for other LC_* variables that have not been set explicitly. When
-#     setting this make sure the desired locale exists by specifying it in the
-#     *locales* parameter.
-#     Example: default_locale => 'en_GB.UTF-8'
-#     Default: undef
-#
-#   [*lc_ctype*]
-#     Character classification and case conversion. How characters are
-#     classified as letters, numbers etc. This determines things like how
-#     characters are converted between upper and lower case.
-#     Default: undef
-#
-#   [*lc_collate*]
-#     Collation order. How strings (file names...) are alphabetically sorted.
-#     Using the "C" or "POSIX" locale here results in a strcmp()-like sort
-#     order, which may be preferable to language-specific locales.
-#     Default: undef
-#
-#   [*lc_time*]
-#     Date and time formats. How your time and date are formatted. Use for
-#     example "en_DK.UTF-8" to get a 24-hour-clock in some programs.
-#     Default: undef
-#
-#   [*lc_numeric*]
-#     Non-monetary numeric formats. How you format your numbers. For example,
-#     in many countries a period (.) is used as a decimal separator, while
-#     others use a comma (,).
-#     Default: undef
-#
-#   [*lc_monetary*]
-#     Monetary formats. What currency you use, its name, and its symbol.
-#     Default: undef
-#
-#   [*lc_messages*]
-#     Formats of informative and diagnostic messages and interactive responses.
-#     Default: undef
-#
-#   [*lc_paper*]
-#     Paper size.
-#     Default: undef
-#
-#   [*lc_name*]
-#     Name formats. How names are represented (surname first or last, etc.).
-#     Default: undef
-#
-#   [*lc_address*]
-#     Address formats and location information. How addresses are formatted
-#     (country first or last, where zip code goes etc.).
-#     Default: undef
-#
-#   [*lc_telephone*]
-#     Telephone number formats.
-#     Default: undef
-#
-#   [*lc_measurement*]
-#     Measurement units (Metric or Other). What units of measurement are used
-#     (feet, meters, pounds, kilos etc.).
-#     Default: undef
-#
-#   [*lc_identification*]
-#     Metadata about the locale information.
-#     Default: undef
-#
-#   [*lc_all*]
-#     Primary Language
-#     Default: undef
-#
-#   [*autoupgrade*]
-#     Upgrade package automatically, if there is a newer version.
-#     Default: false
-#
-#   [*package*]
-#     Name of the package.
-#     Only set this, if your platform is not supported or you know, what you're doing.
-#     Default: auto-set, platform specific
-#
-#   [*config_file*]
-#     Main configuration file.
-#     Only set this, if your platform is not supported or you know, what you're doing.
-#     Default: auto-set, platform specific
-#
-#   [*locale_gen_command*]
-#     Command to generate locales.
-#     Only set this, if your platform is not supported or you know, what you're doing.
-#     Default: auto-set, platform specific
-#
-# Actions:
-#   Installs locales package, generates specified locales and sets
-#   locale-related environment variables in the appropriate system-wide
-#   configuration file.
-#
-# Requires:
-#   Nothing
-#
-# Sample Usage:
+# @example Basic usage
 #   class { 'locales':
 #     locales        => [ 'en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8', 'en_GB.UTF-8 UTF-8', ],
 #     default_locale => 'en_GB.UTF-8',
 #     lc_time        => 'en_DK.UTF-8'
 #   }
 #
-# [Remember: No empty lines between comments and class definition]
+# @param locales
+#   List of name of locales to generate
+# @param ensure
+#   Ensure if present or absent.
+# @param default_locale
+#   The value of the LANG environment variable. Used by the locale system as
+#   default for other LC_* variables that have not been set explicitly. When
+#   setting this make sure the desired locale exists by specifying it in the
+#   *locales* parameter.
+# @param lc_ctype
+#   Character classification and case conversion. How characters are
+#   classified as letters, numbers etc. This determines things like how
+#   characters are converted between upper and lower case.
+# @param lc_collate
+#   Collation order. How strings (file names...) are alphabetically sorted.
+#   Using the "C" or "POSIX" locale here results in a strcmp()-like sort
+#   order, which may be preferable to language-specific locales.
+# @param lc_time
+#   Date and time formats. How your time and date are formatted. Use for
+#   example "en_DK.UTF-8" to get a 24-hour-clock in some programs.
+# @param lc_numeric
+#   Non-monetary numeric formats. How you format your numbers. For example,
+#   in many countries a period (.) is used as a decimal separator, while
+#   others use a comma (,).
+# @param lc_monetary
+#   Monetary formats. What currency you use, its name, and its symbol.
+# @param lc_messages
+#   Formats of informative and diagnostic messages and interactive responses.
+# @param lc_paper
+#   Paper size.
+# @param lc_name
+#   Name formats. How names are represented (surname first or last, etc.).
+# @param lc_address
+#   Address formats and location information. How addresses are formatted
+#   (country first or last, where zip code goes etc.).
+# @param lc_telephone
+#   Telephone number formats.
+# @param lc_measurement
+#   Measurement units (Metric or Other). What units of measurement are used
+#   (feet, meters, pounds, kilos etc.).
+# @param lc_identification
+#   Metadata about the locale information.
+# @param lc_all
+#   Primary Language
+# @param autoupgrade
+#   Upgrade package automatically, if there is a newer version.
+# @param package
+#   Name of the package.
+#   Only set this, if your platform is not supported or you know, what you're doing.
+# @param config_file
+#   Main configuration file.
+#   Only set this, if your platform is not supported or you know, what you're doing.
+# @param locale_gen_cmd
+#   Command to generate locales.
+#   Only set this, if your platform is not supported or you know, what you're doing.
 class locales (
-  Array[String]            $locales             = ['en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8'],
-  String                   $ensure              = 'present',
-  Optional[String]         $default_locale      = undef,
-  Optional[String]         $language            = undef,
-  Optional[String]         $lc_ctype            = $locales::params::lc_ctype,
-  Optional[String]         $lc_collate          = $locales::params::lc_collate,
-  Optional[String]         $lc_time             = $locales::params::lc_time,
-  Optional[String]         $lc_numeric          = $locales::params::lc_numeric,
-  Optional[String]         $lc_monetary         = $locales::params::lc_monetary,
-  Optional[String]         $lc_messages         = $locales::params::lc_messages,
-  Optional[String]         $lc_paper            = $locales::params::lc_paper,
-  Optional[String]         $lc_name             = $locales::params::lc_name,
-  Optional[String]         $lc_address          = $locales::params::lc_address,
-  Optional[String]         $lc_telephone        = $locales::params::lc_telephone,
-  Optional[String]         $lc_measurement      = $locales::params::lc_measurement,
-  Optional[String]         $lc_identification   = $locales::params::lc_identification,
-  Optional[String]         $lc_all              = $locales::params::lc_all,
-  Optional[String]         $root_uses_lang      = $locales::params::root_uses_lang,
-  String                   $installed_languages = $locales::params::installed_languages,
-  String                   $auto_detect_utf8    = $locales::params::auto_detect_utf8,
-  String                   $input_method        = $locales::params::input_method,
-  Boolean                  $autoupgrade         = false,
-  String                   $package             = $locales::params::package,
-  Optional[String]         $config_file         = $locales::params::config_file,
-  Optional[String]         $locale_gen_cmd      = $locales::params::locale_gen_cmd,
-  String                   $default_file        = $locales::params::default_file,
-  Variant[Boolean, String] $update_locale_pkg   = $locales::params::update_locale_pkg,
-  Optional[String]         $update_locale_cmd   = $locales::params::update_locale_cmd,
-  Optional[String]         $supported_locales   = $locales::params::supported_locales, # ALL locales support
-  Boolean                  $manage_package      = true,
+  Array[String]             $locales             = ['en_US.UTF-8 UTF-8', 'de_DE.UTF-8 UTF-8'],
+  Enum['present', 'absent'] $ensure              = 'present',
+  Optional[String]          $default_locale      = undef,
+  Optional[String]          $language            = undef,
+  Optional[String]          $lc_ctype            = $locales::params::lc_ctype,
+  Optional[String]          $lc_collate          = $locales::params::lc_collate,
+  Optional[String]          $lc_time             = $locales::params::lc_time,
+  Optional[String]          $lc_numeric          = $locales::params::lc_numeric,
+  Optional[String]          $lc_monetary         = $locales::params::lc_monetary,
+  Optional[String]          $lc_messages         = $locales::params::lc_messages,
+  Optional[String]          $lc_paper            = $locales::params::lc_paper,
+  Optional[String]          $lc_name             = $locales::params::lc_name,
+  Optional[String]          $lc_address          = $locales::params::lc_address,
+  Optional[String]          $lc_telephone        = $locales::params::lc_telephone,
+  Optional[String]          $lc_measurement      = $locales::params::lc_measurement,
+  Optional[String]          $lc_identification   = $locales::params::lc_identification,
+  Optional[String]          $lc_all              = $locales::params::lc_all,
+  Optional[String]          $root_uses_lang      = $locales::params::root_uses_lang,
+  String                    $installed_languages = $locales::params::installed_languages,
+  String                    $auto_detect_utf8    = $locales::params::auto_detect_utf8,
+  String                    $input_method        = $locales::params::input_method,
+  Boolean                   $autoupgrade         = false,
+  String                    $package             = $locales::params::package,
+  Optional[String]          $config_file         = $locales::params::config_file,
+  Optional[String]          $locale_gen_cmd      = $locales::params::locale_gen_cmd,
+  String                    $default_file        = $locales::params::default_file,
+  Variant[Boolean, String]  $update_locale_pkg   = $locales::params::update_locale_pkg,
+  Optional[String]          $update_locale_cmd   = $locales::params::update_locale_cmd,
+  Optional[String]          $supported_locales   = $locales::params::supported_locales, # ALL locales support
+  Boolean                   $manage_package      = true,
 ) inherits locales::params {
   $locales.each | String $locale | {
     # expected format: "en_US.UTF-8<blank>UTF-8"
