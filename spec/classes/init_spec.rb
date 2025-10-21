@@ -18,18 +18,20 @@ describe 'locales' do
 
         case facts[:os]['family'].downcase
         when 'debian'
+          debian_legacy_location = '/etc/default/locale'
+          debian_new_location = '/etc/locale.conf'
           case facts[:os]['name'].downcase
           when 'debian'
-            default_file = if Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new('12')
-                             '/etc/locale.conf'
+            default_file = if Gem::Version.new(facts[:os]['release']['major']) > Gem::Version.new('12')
+                             debian_new_location
                            else
-                             '/etc/default/locale'
+                             debian_legacy_location
                            end
           when 'ubuntu'
             default_file = if Gem::Version.new(facts[:os]['release']['full']) >= Gem::Version.new('24.04')
-                             '/etc/locale.conf'
+                             debian_new_location
                            else
-                             '/etc/default/locale'
+                             debian_legacy_location
                            end
           end
         when 'sles', 'suse'
@@ -38,21 +40,29 @@ describe 'locales' do
           default_file = '/etc/locale.conf'
         end
 
-        if os =~ (%r{^(debian|ubuntu)}) && (default_file != '/etc/default/locale')
-          it do
-            is_expected.to contain_file('/etc/default/locale').with(
-              'ensure' => 'present',
-              'target' => '/etc/locale.conf'
-            )
-          end
-        else
-          it do
-            is_expected.to contain_file(default_file).with(
-              'ensure' => 'present',
-              'owner' => 'root',
-              'group' => 0,
-              'mode' => '0644'
-            )
+        it do
+          is_expected.to contain_file(default_file).with(
+            'ensure' => 'file',
+            'owner' => 'root',
+            'group' => 0,
+            'mode' => '0644'
+          )
+        end
+
+        if os =~ (%r{^(debian|ubuntu)})
+          if default_file == debian_legacy_location
+            it do
+              is_expected.to contain_file(debian_new_location).with(
+                'ensure' => 'absent'
+              )
+            end
+          else
+            it do
+              is_expected.to contain_file(debian_legacy_location).with(
+                'ensure' => 'present',
+                'target' => '../locale.conf'
+              )
+            end
           end
         end
       end
