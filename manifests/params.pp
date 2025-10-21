@@ -37,7 +37,7 @@ class locales::params {
           $config_file = '/etc/locale.gen'
         }
         /(Debian|Raspbian|Kali|Parrot)/: {
-          if versioncmp($facts['os']['release']['major'], '12') >= 0 {
+          if versioncmp($facts['os']['release']['major'], '13') >= 0 {
             $default_file = '/etc/locale.conf'
           } else {
             $default_file = '/etc/default/locale'

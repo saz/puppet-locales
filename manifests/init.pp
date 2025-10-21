@@ -179,8 +179,16 @@ class locales (
     $locale_template = 'locale.erb'
   }
 
+  case $ensure {
+    'present': {
+      $default_file_ensure = 'file'
+    }
+    default: {
+      $default_file_ensure = 'absent'
+    }
+  }
   file { $default_file:
-    ensure  => $ensure,
+    ensure  => $default_file_ensure,
     owner   => 'root',
     group   => 0,
     mode    => '0644',
@@ -189,10 +197,17 @@ class locales (
   }
 
   $debian_legacy_location = '/etc/default/locale'
-  if $facts['os']['family'] == 'Debian' and $default_file != $debian_legacy_location {
-    file { $debian_legacy_location:
-      ensure => $ensure,
-      target => $default_file,
+  $debian_new_location = '/etc/locale.conf'
+  if $facts['os']['family'] == 'Debian' {
+    if $default_file == $debian_legacy_location {
+      file { $debian_new_location:
+        ensure => absent,
+      }
+    } else {
+      file { $debian_legacy_location:
+        ensure => $ensure,
+        target => '../locale.conf',
+      }
     }
   }
 
