@@ -97,7 +97,7 @@ class locales (
   $locales.each | String $locale | {
     # expected format: "en_US.UTF-8<blank>UTF-8"
     # e.g. locale-gen isn't failing but showing a warning
-    if ! ' ' in $locale {
+    if ! (' ' in $locale) {
       fail("Invalid locale: ${locale}")
     }
   }
